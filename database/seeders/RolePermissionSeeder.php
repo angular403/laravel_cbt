@@ -10,20 +10,18 @@ use Spatie\Permission\Models\Role;
 
 class RolePermissionSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
-        $permission = [
+        $permissions = [
             'view courses',
             'create courses',
             'edit courses',
             'delete courses',
         ];
 
-        foreach ($permission as $permission) {
-            Permission::create_function([
+        foreach ($permissions as $permission) {
+            Permission::create([
                 'name' => $permission
             ]);
         }
@@ -41,21 +39,18 @@ class RolePermissionSeeder extends Seeder
             ]
         );
 
-        $studentRole = Role::create([
+        $studentRole = Role::firstOrCreate([
             'name' => 'student'
         ]);
 
-        $studentRole->givePermissionTo(
-            [
-                'view courses',
-            ]
-        );
+        $studentRole->givePermissionTo([
+            'view courses',
+        ]);
 
-
-        $user = User::create([
-            'name'=> 'fany',
-            'email'=> 'fany@teacher.com',
-            'password'=> bcrypt(12345678),
+        $user = User::firstOrCreate([
+            'name' => 'Fany',
+            'email' => 'fany@teacher.com',
+            'password' => bcrypt('12345678'),
         ]);
 
         $user->assignRole($teacherRole);
